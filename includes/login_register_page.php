@@ -112,18 +112,15 @@ body {
 
 .box {
 	display: flex;
-	flex-direction: row;
-	
+	flex-direction: column;
+	background: white;
+	padding: 30px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px gray;
+	width: 350px;
 }
 
-.container {
-	margin: 40px;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px gray;
-    width: 400px;
-}
+
 
 .back {
 	margin: 1px;
@@ -141,11 +138,107 @@ input { width: 100%; padding: 8px; margin: 5px 0 15px; }
 button { width: 100%; background: #000; color: white; border: none; padding: 10px; cursor: pointer; }
 .message { color: red; text-align: center; font-weight: bold; }
 a { text-decoration: none; color: #000; }
+
+
+
+    .open-popup {
+      padding: 10px 20px;
+      background: #101820;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin: 20px;
+      border-radius: 5px;
+	  height: 50px;
+	  width:300px;
+    }
+
+ 
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .overlay.show {
+      display: flex;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+ 
+    .popup-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .popup-box h2 {
+      margin-top: 0;
+    }
+
+    .popup-box input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+
+    .popup-box button {
+      width: 100%;
+      padding: 8px;
+      background: #101820;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+  
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
 </style>
 </head>
 <body>
+
+
 <div class="box">
-<div class="container">
+<button class="open-popup" id="loginBtn">Login</button>
+<button class="open-popup" id="registerBtn">Register</button>
+
+
+
+    <div style="text-align:center;">
+        <a href="../index.php">⬅ Back to Home</a>
+    </div>
+	
+</div>
+
+
+
+
+
+	<div class="overlay" id="loginOverlay">
+    <div class="popup-box">
+	<span class="close-btn" id="closeLogin">&times;</span>
     <h2>Login</h2>
     <?php if ($message) echo "<p class='message'>$message</p>"; ?>
     <form method="POST">
@@ -153,9 +246,15 @@ a { text-decoration: none; color: #000; }
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit" name="login">Login</button>
     </form>
-
+</div>
+</div>
     </div>
-<div class="container">
+	
+	
+
+<div class="overlay" id="registerOverlay">
+    <div class="popup-box">
+      <span class="close-btn" id="closeRegister">&times;</span>
     <h2>Register</h2>
     <form method="POST" enctype="multipart/form-data">
         <input type="text" name="full_name" placeholder="Full Name" required>
@@ -167,14 +266,60 @@ a { text-decoration: none; color: #000; }
         <input type="file" name="profile_picture" accept="image/*">
         <button type="submit" name="register">Register</button>
     </form>
-</div>
-</div>
-<div class="back">
-    <div style="text-align:center;">
-        <a href="../index.php">⬅ Back to Home</a>
-    </div>
+	</div>
 	</div>
 </div>
+</div>
 
+
+
+
+ <script>
+    // Buttons
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+
+    // Overlays
+    const loginOverlay = document.getElementById('loginOverlay');
+    const registerOverlay = document.getElementById('registerOverlay');
+
+    // Close buttons
+    const closeLogin = document.getElementById('closeLogin');
+    const closeRegister = document.getElementById('closeRegister');
+
+    // Show login popup
+    loginBtn.addEventListener('click', () => {
+      loginOverlay.classList.add('show');
+    });
+
+    // Show register popup
+    registerBtn.addEventListener('click', () => {
+      registerOverlay.classList.add('show');
+    });
+
+    // Close login popup
+    closeLogin.addEventListener('click', () => {
+      loginOverlay.classList.remove('show');
+    });
+
+    // Close register popup
+    closeRegister.addEventListener('click', () => {
+      registerOverlay.classList.remove('show');
+    });
+
+    // Close when clicking outside login form
+    loginOverlay.addEventListener('click', (e) => {
+      if (e.target === loginOverlay) {     //e.target = the element that triggered the click.
+        loginOverlay.classList.remove('show');
+      }
+    });
+
+    // Close when clicking outside register form
+    registerOverlay.addEventListener('click', (e) => {
+      if (e.target === registerOverlay) {      //e.target = the element that triggered the click.
+        registerOverlay.classList.remove('show');
+      }
+    });
+  </script>
 </body>
 </html>
