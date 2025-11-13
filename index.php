@@ -3,7 +3,7 @@
 
 
 
-// FIXED INCLUDES - Check multiple possible paths
+
 if(file_exists('includes/header.php')) {
     include 'includes/header.php';
 } elseif(file_exists('header.php')) {
@@ -764,6 +764,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 
 <?php include 'includes/footer.php'; ?>
